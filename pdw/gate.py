@@ -48,18 +48,24 @@ def main():
                 t0 = time.time()
                 rec = solve(n, m, kissat, timeout=args.timeout)
                 rec["expected_sat"] = want_sat
-                rec["agrees"] = (rec.get("sat") == want_sat
-                                 and rec["verdict"] in ("UNSAT", "SAT_WITNESS_VERIFIED"))
-                if not rec["agrees"]:
+                # Three outcomes, not two. A solver that ran out of time has not
+                # disagreed with anything -- it has failed to measure. Folding
+                # the two together would turn a known ceiling into a false alarm.
+                if rec["verdict"] in ("UNSAT", "SAT_WITNESS_VERIFIED"):
+                    rec["outcome"] = "agrees" if rec.get("sat") == want_sat else "DISAGREES"
+                else:
+                    rec["outcome"] = "undecided"
+                if rec["outcome"] == "DISAGREES":
                     failures += 1
                 log.write(json.dumps(rec) + "\n")
                 log.flush()
+                mark = {"agrees": "", "undecided": "   (undecided)",
+                        "DISAGREES": "   <<< DISAGREES"}[rec["outcome"]]
                 print(f"n={n} m={m} want={'SAT' if want_sat else 'UNSAT'} "
                       f"got={rec['verdict']} vars={rec['vars']} "
                       f"clauses={rec['clauses']} build={rec['build_s']}s "
                       f"solve={rec.get('solve_s')}s "
-                      f"[{time.time() - t0:.1f}s wall]"
-                      f"{'' if rec['agrees'] else '   <<< DISAGREES'}", flush=True)
+                      f"[{time.time() - t0:.1f}s wall]{mark}", flush=True)
     print(f"\ngate: {failures} disagreement(s)")
     return 1 if failures else 0
 
