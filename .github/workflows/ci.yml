@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # pdw/verify_all.py IS the gate, and it needs no solver. It compares the
+  # progression enumerator against a closed form it did not come from, makes the
+  # witness checker catch a planted progression and then miss it once the
+  # sequence is broken, re-derives the first six published pairs by exhaustion
+  # over all palindromic colourings, and re-verifies every stored witness before
+  # flipping a character to confirm the check can still fail. About six seconds.
+  #
+  # What CI deliberately does NOT do is re-run the SAT measurements. Those are
+  # the timings in PREFLIGHT.md, they take hours, and their point is that they
+  # ran out - repeating them on a shared runner would measure the runner.
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - run: python pdw/verify_all.py
+
+  # Pinned to the version ruff.toml was validated against.
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - run: pip install ruff==0.16.1
+      - run: ruff check .
+
+  gitleaks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

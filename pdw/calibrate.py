@@ -14,8 +14,8 @@ import time
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from pdw import encode                    # noqa: E402
-from pdw.solve import find_kissat         # noqa: E402
+from pdw import encode
+from pdw.solve import find_kissat
 
 CONFIGS = ["--default", "--sat", "--unsat"]
 

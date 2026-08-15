@@ -16,8 +16,8 @@ import time
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from pdw import encode                        # noqa: E402
-from pdw.verify_witness import check          # noqa: E402
+from pdw import encode
+from pdw.verify_witness import check
 
 SAT, UNSAT = 10, 20
 

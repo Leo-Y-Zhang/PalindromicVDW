@@ -17,7 +17,7 @@ import time
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from pdw.solve import find_kissat, solve      # noqa: E402
+from pdw.solve import find_kissat, solve
 
 PUB1 = [2, 3, 6, 15, 16, 30, 41, 52, 62, 93, 110, 126, 142, 174, 200, 232, 256,
         299, 338, 380, 400, 444, 506, 568, 586, 634, 664]

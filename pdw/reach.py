@@ -19,10 +19,10 @@ import time
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from pdw import encode                            # noqa: E402
-from pdw.gate import PUB2                         # noqa: E402
-from pdw.solve import find_kissat, parse_model    # noqa: E402
-from pdw.verify_witness import check              # noqa: E402
+from pdw import encode
+from pdw.gate import PUB2
+from pdw.solve import find_kissat, parse_model
+from pdw.verify_witness import check
 
 
 def main():

@@ -1,0 +1,13 @@
+# The rule set is stated here rather than left to whatever ruff CI happens to
+# install: an unpinned lint grades the code against whatever shipped that
+# morning, which makes a red run say nothing about the commit. The workflow
+# pins the version this file was validated against; bump the two together.
+
+target-version = "py313"
+line-length = 100
+
+[lint]
+# E/F pycodestyle and pyflakes, the baseline. I deterministic import order.
+# UP legacy spellings, since this is py313-only. B bugbear, real defects rather
+# than style. RUF ruff's own rules, including RUF100 for noqa that does nothing.
+select = ["E", "F", "I", "UP", "B", "RUF"]

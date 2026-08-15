@@ -37,13 +37,15 @@ the definition and finds progressions by its own walk, sharing no code with the
 encoder — so a bug in the encoding cannot hide inside the check meant to catch
 it.
 
-**The unsatisfiable side runs out at n = 23**, where no verdict arrives in
-600 s. Solve time grows about 2.9x per step in n, which puts the next
-unpublished term, n = 28, at roughly three days per instance. `PREFLIGHT.md`
-has the full table, the configuration comparison, and what would have to exist
-before this were worth restarting.
+**The last fully decided value is n = 22.** At n = 23 the refutation gets no
+verdict in 600 s while the witness still lands in 163 s; at n = 24 neither half
+lands, even told to expect satisfiability and given 900 s. Solve time grows
+about 2.9x per step in n, which puts the next unpublished term, n = 28, at
+roughly three days per instance. `PREFLIGHT.md` has the full table, the
+configuration comparison, and what would have to exist before this were worth
+restarting.
 
-The clause count was never the constraint. The unsatisfiable half is.
+The clause count was never the constraint. The search is.
 
 ## Layout
 

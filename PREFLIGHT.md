@@ -49,7 +49,7 @@ solver-free checker, which shares no code with the encoder.
 
 The single undecided instance is the one that ends the project.
 
-## 2. The unsatisfiable side runs out at n = 23
+## 2. Both halves run out, one step apart
 
 Times are kissat 4.0.1 on one desktop core, default configuration.
 
@@ -63,6 +63,13 @@ Times are kissat 4.0.1 on one desktop core, default configuration.
 | 21 | 203 | 44,704 | 16.9, 202.9 | 83.5, 82.5 |
 | 22 | 232 | 58,234 | 28.1, 560.3 | 506.1, 495.5 |
 | **23** | **254** | **69,598** | **163.4** | **no verdict in 600 s** |
+| **24** | **296** | **94,645** | **no verdict in 900 s** | not attempted |
+
+The last fully decided value is **n = 22**. At n = 23 only the satisfiable half
+lands; at n = 24 neither does, even with the solver told to expect satisfiability
+and given 900 s. The two halves fail one step apart, which is worth stating
+plainly: this is not a refutation problem that happens to be hard, it is the
+whole question running out at the same place.
 
 Sustained growth is about **2.9x per step in n**, over seven steps. Extrapolated
 from n = 22:
@@ -94,8 +101,9 @@ thousand is not a strategy.
 
 ## Verdict: NO-GO, and what would change it
 
-Not "this is hard". Specifically: **the unsatisfiable half of pdw(n,3;2) is not
-reachable by a single kissat call past n = 23 on one desktop machine.** In rough
+Not "this is hard". Specifically: **pdw(n,3;2) is not reachable by a single
+kissat call past n = 22 on one desktop machine — the refutations stop at 23 and
+the witnesses at 24.** In rough
 order of what would have to exist first:
 
 1. **Cube-and-conquer** over the palindromic half-interval, splitting the search
