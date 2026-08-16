@@ -72,6 +72,18 @@ def main():
         want = (PUB1[n - 1], PUB2[n - 1])
         check_that(f"pdw({n},3;2) = {want} by exhaustion", got == want)
 
+    section("exhaustion refuses a cap it cannot certify M2 from")
+    # Existence is irregular. At n = 5 a partition exists at m = 16, 18 and 20
+    # and fails at 17 and 19, so a cap that stops on one of those isolated
+    # failures has seen nothing that rules out a later success and must say so.
+    # Published pdw(5,3;2) is (16, 21).
+    check_that("n=5 cap=17 stops on an isolated failure and is refused",
+               pair(5, 17) is None)
+    check_that("n=5 cap=19 stops on an isolated failure and is refused",
+               pair(5, 19) is None)
+    check_that("n=5 cap=22 reaches two consecutive failures and answers",
+               pair(5, 22) == (16, 21))
+
     section("the palindrome restriction does not lose a partition it should keep")
     # At m = M1 a palindromic partition exists; at M1 + 1 none does. Both are
     # decided here without a solver, for the sizes exhaustion can still reach.

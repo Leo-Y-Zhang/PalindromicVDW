@@ -25,6 +25,15 @@ def pair(n, m_cap):
     """Return (M1, M2) for pdw(n,3;2) by exhaustion, or None if m_cap is too low.
 
     M1 = last m before the first failure; M2 = one past the last success.
+
+    A single failure above the last success proves nothing, because existence
+    is irregular: at n = 5 it fails at m = 17 and 19 and holds again at 18 and
+    20. Two consecutive failures do prove it. Restricting a palindromic
+    colouring of {1,...,m+2} to {2,...,m+1} leaves a palindromic colouring of
+    an interval of length m whose two parts are subsets of the originals, so
+    failure at m forces failure at m + 2, and failures at m and m + 1 together
+    close every size above. M2 is named only once that pair has been seen;
+    short of it the cap is too low and the answer is None.
     """
     first_fail = None
     last_ok = None
@@ -34,6 +43,6 @@ def pair(n, m_cap):
             last_ok = m
         elif first_fail is None:
             first_fail = m
-    if first_fail is None or last_ok is None or last_ok >= m_cap:
+    if first_fail is None or last_ok is None or m_cap - last_ok < 2:
         return None
     return first_fail - 1, last_ok + 1
