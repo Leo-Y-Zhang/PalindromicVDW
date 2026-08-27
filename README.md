@@ -58,19 +58,37 @@ The clause count was never the constraint. The search is.
 - `pdw/solve.py` — build, solve, verify any witness, record the evidence
   including the solver's return code.
 - `pdw/gate.py` — reproduce published pairs before trusting anything past them.
+- `pdw/verify_all.py` — the solver-free gate, and what CI runs on every push.
 - `pdw/calibrate.py` — whether `kissat --sat` / `--unsat` pay for themselves.
 - `pdw/reach.py` — how far the satisfiable side alone gets.
 - `pdw/evidence/` — one JSON record per decision, including the timeouts.
 
 ## Verifying
 
+Clone, then run the gate from the repository root. It is the one command that
+checks everything checkable without a solver, and it is what CI runs:
+
+```
+python pdw/verify_all.py
+```
+
+It re-derives the small pairs by exhaustion, re-verifies every stored witness,
+and breaks each one on purpose to confirm the check can still fail. Expect
+`EVERY CLAIM IN THIS REPOSITORY IS SUPPORTED BY EVIDENCE ON DISK.` and exit 0,
+in well under a minute.
+
+Python 3.13, which is what CI runs and what `ruff.toml` targets. Nothing is
+installed and there are no third-party packages — `kissat` is the only external
+dependency, and only the solver-backed commands need it:
+
 ```
 python pdw/gate.py --from 15 --to 22          # needs kissat
 python -c "from pdw.brute import pair; print(pair(6, 40))"    # needs nothing
 ```
 
-`kissat` is located through `--kissat`, the `KISSAT` environment variable, or
-`PATH`.
+`kissat` is [Armin Biere's solver](https://github.com/arminbiere/kissat); the
+timings in `PREFLIGHT.md` are 4.0.1. It is located through `--kissat`, the
+`KISSAT` environment variable, or `PATH`.
 
 ## Honest limits
 
