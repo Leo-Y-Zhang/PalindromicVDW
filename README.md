@@ -73,9 +73,15 @@ python pdw/verify_all.py
 ```
 
 It re-derives the small pairs by exhaustion, re-verifies every stored witness,
-and breaks each one on purpose to confirm the check can still fail. Expect
-`EVERY CLAIM IN THIS REPOSITORY IS SUPPORTED BY EVIDENCE ON DISK.` and exit 0,
-in well under a minute.
+and breaks each one on purpose to confirm the check can still fail — including
+the witness `reach.py` found: `reach.py`'s own `classify()`, the function that
+turns a colouring into its `SAT_WITNESS_VERIFIED` / `SAT_WITNESS_BAD` verdict,
+is imported directly and run on the committed `pdw/evidence/reach.jsonl`
+witness and on a copy with one colour flipped, and must accept the first and
+reject the second (`reach.py` is otherwise a standalone offline explorer that
+nothing else here ever calls). Expect `N passed / 0 failed` (89 at the time
+of writing) and `EVERY CLAIM IN THIS REPOSITORY IS SUPPORTED BY EVIDENCE ON
+DISK.`, exit 0, in well under a minute.
 
 Python 3.13, which is what CI runs and what `ruff.toml` targets. Nothing is
 installed and there are no third-party packages — `kissat` is the only external

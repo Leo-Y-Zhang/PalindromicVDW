@@ -25,6 +25,22 @@ from pdw.solve import find_kissat, parse_model
 from pdw.verify_witness import check
 
 
+def classify(colouring, n):
+    """The solver-free half of this file's verdict: re-check a claimed
+    satisfying colouring and translate the result into the same two labels
+    `main()` writes to `pdw/evidence/reach.jsonl`.
+
+    Factored out of `main()`'s loop so it can be exercised without a live
+    kissat: `main()` only ever calls this with a colouring `--sat` itself just
+    produced, so nothing here previously ran unless this module's own binary
+    search reached a fresh instance. See `pdw/verify_all.py`'s "reach.py"
+    section, which imports this function directly and feeds it both a stored
+    witness and a one-character-flipped copy of it.
+    """
+    reason = check(colouring, n)
+    return ('SAT_WITNESS_VERIFIED' if reason is None else 'SAT_WITNESS_BAD'), reason
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--from", dest="lo", type=int, default=23)
@@ -58,9 +74,7 @@ def main():
                 rec["returncode"] = p.returncode
                 if p.returncode == 10:
                     colouring = encode.colouring_from_model(parse_model(p.stdout), m)
-                    reason = check(colouring, n)
-                    rec["verdict"] = ("SAT_WITNESS_VERIFIED" if reason is None
-                                      else "SAT_WITNESS_BAD")
+                    rec["verdict"], reason = classify(colouring, n)
                     rec["colouring"] = colouring
                     if reason:
                         rec["witness_error"] = reason

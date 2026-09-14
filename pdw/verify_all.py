@@ -13,7 +13,7 @@ from itertools import pairwise
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from pdw import encode
+from pdw import encode, reach
 from pdw.brute import pair, satisfiable
 from pdw.gate import PUB1, PUB2
 from pdw.verify_witness import check, has_progression
@@ -116,6 +116,36 @@ def main():
                            check(flipped, rec["n"]) is not None)
     check_that(f"at least one stored witness was checked ({stored} found)",
                stored > 0)
+
+    section("reach.py's own verdict classification, then broken on purpose")
+    # The section above re-verifies every stored *colouring* with the
+    # solver-free checker, including the one reach.py found -- but reach.py
+    # also computes its own SAT_WITNESS_VERIFIED / SAT_WITNESS_BAD verdict from
+    # that colouring, and nothing here ever called the function that does it.
+    # Forcing it to always report SAT_WITNESS_VERIFIED survived unnoticed (see
+    # audit/mutants/SAT_checkers.md, PalindromicVDW M7): reach.py is a
+    # standalone offline explorer, imported by nothing in this gate. This
+    # imports it directly and calls its real `classify()` on a committed
+    # witness and on the same witness with one colour flipped.
+    reach_path = os.path.join(HERE, "evidence", "reach.jsonl")
+    reach_checked = 0
+    with open(reach_path, encoding="utf-8") as fh:
+        for line in fh:
+            rec = json.loads(line)
+            colouring = rec.get("colouring")
+            if not colouring:
+                continue
+            reach_checked += 1
+            name = f"reach.jsonl n={rec['n']} m={rec['m']}"
+            verdict, _ = reach.classify(colouring, rec["n"])
+            check_that(f"{name}: reach.classify ACCEPTS the stored witness",
+                       verdict == "SAT_WITNESS_VERIFIED")
+            flipped = ("2" if colouring[0] == "1" else "1") + colouring[1:]
+            verdict, _ = reach.classify(flipped, rec["n"])
+            check_that(f"{name}: reach.classify REJECTS a single flipped colour",
+                       verdict == "SAT_WITNESS_BAD")
+    check_that(f"at least one reach.py witness was checked ({reach_checked} found)",
+               reach_checked > 0)
 
     section("published values this repository does not claim")
     check_that("A198684 and A198685 lists are the same length",
