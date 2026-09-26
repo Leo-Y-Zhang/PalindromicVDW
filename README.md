@@ -79,9 +79,12 @@ turns a colouring into its `SAT_WITNESS_VERIFIED` / `SAT_WITNESS_BAD` verdict,
 is imported directly and run on the committed `pdw/evidence/reach.jsonl`
 witness and on a copy with one colour flipped, and must accept the first and
 reject the second (`reach.py` is otherwise a standalone offline explorer that
-nothing else here ever calls). Expect `N passed / 0 failed` (89 at the time
-of writing) and `EVERY CLAIM IN THIS REPOSITORY IS SUPPORTED BY EVIDENCE ON
-DISK.`, exit 0, in well under a minute.
+nothing else here ever calls). It also recomputes the agreement line above from
+`pdw/evidence/gate.jsonl` rather than trusting it: every record must be one of
+the four instances its published pair implies, with a clause count that matches
+the closed form and a verdict that matches the solver's return code. Expect `N
+passed / 0 failed` (138 at the time of writing) and `EVERY CLAIM IN THIS
+REPOSITORY IS SUPPORTED BY EVIDENCE ON DISK.`, exit 0, in well under a minute.
 
 Python 3.13, which is what CI runs and what `ruff.toml` targets. Nothing is
 installed and there are no third-party packages — `kissat` is the only external
