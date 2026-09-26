@@ -83,7 +83,7 @@ nothing else here ever calls). It also recomputes the agreement line above from
 `pdw/evidence/gate.jsonl` rather than trusting it: every record must be one of
 the four instances its published pair implies, with a clause count that matches
 the closed form and a verdict that matches the solver's return code. Expect `N
-passed / 0 failed` (138 at the time of writing) and `EVERY CLAIM IN THIS
+passed / 0 failed` (141 at the time of writing) and `EVERY CLAIM IN THIS
 REPOSITORY IS SUPPORTED BY EVIDENCE ON DISK.`, exit 0, in well under a minute.
 
 Python 3.13, which is what CI runs and what `ruff.toml` targets. Nothing is

@@ -65,6 +65,11 @@ def implied(n):
     return {m1: True, m1 + 1: False, m2 - 1: True, m2: False}
 
 
+def same(value, expected):
+    """Equal and of the same JSON type: 1.0 == 1 and True == 1 in Python."""
+    return type(value) is type(expected) and value == expected
+
+
 def record_problems(rec):
     """Everything inconsistent inside one solver record, as reasons.
 
@@ -74,18 +79,18 @@ def record_problems(rec):
     """
     problems = []
     n, m = rec["n"], rec["m"]
-    if rec.get("vars") != (m + 1) // 2:
+    if not same(rec.get("vars"), (m + 1) // 2):
         problems.append(f"{rec.get('vars')} variables, not ceil(m/2) = {(m + 1) // 2}")
     clauses = ap_count(m, 3) + ap_count(m, n)
-    if rec.get("clauses") != clauses:
+    if not same(rec.get("clauses"), clauses):
         problems.append(f"{rec.get('clauses')} clauses, not {clauses}")
     verdict, code = rec.get("verdict"), rec.get("returncode")
     if verdict == "SAT_WITNESS_VERIFIED":
-        if code != 10 or rec.get("sat", True) is not True or not rec.get("colouring"):
+        if not same(code, 10) or rec.get("sat", True) is not True or not rec.get("colouring"):
             problems.append("a verified witness needs returncode 10, sat true and "
                             "a colouring")
     elif verdict == "UNSAT":
-        if code != 20 or rec.get("sat") is not False or "colouring" in rec:
+        if not same(code, 20) or rec.get("sat") is not False or "colouring" in rec:
             problems.append("an UNSAT needs returncode 20, sat false and no colouring")
     elif verdict == "TIMEOUT":
         if code is not None or rec.get("timed_out", True) is not True \
@@ -186,10 +191,14 @@ def main():
         # Re-running an instance can decide it, but must never contradict.
         seen = outcomes.setdefault((n, m), set())
         seen.add(outcome)
-    tally = {"instances": len(outcomes), "agree": 0, "disagree": 0, "undecided": 0}
-    for seen in outcomes.values():
-        tally["disagree" if "disagree" in seen else
-              "agree" if "agree" in seen else "undecided"] += 1
+    # One outcome per instance: any contradiction outweighs everything, and a
+    # re-run that decided an instance outweighs the runs that timed out on it.
+    final = {key: "disagree" if "disagree" in seen else
+             "agree" if "agree" in seen else "undecided"
+             for key, seen in outcomes.items()}
+    tally = {"instances": len(final), "agree": 0, "disagree": 0, "undecided": 0}
+    for outcome in final.values():
+        tally[outcome] += 1
     check_that(f"{tally['instances']} distinct instances, {tally['agree']} agreements, "
                f"{tally['disagree']} disagreements, {tally['undecided']} undecided, "
                f"as claimed", tally == CLAIMED_AGREEMENT)
@@ -198,7 +207,7 @@ def main():
                f"(claimed {CLAIMED_SAT_RANGE[0]}..{CLAIMED_SAT_RANGE[1]})",
                ns == list(range(CLAIMED_SAT_RANGE[0], CLAIMED_SAT_RANGE[1] + 1)))
     decided = [n for n in ns
-               if all(outcomes.get((n, m)) == {"agree"} for m in implied(n))]
+               if all(final.get((n, m)) == "agree" for m in implied(n))]
     check_that(f"every n up to {LAST_FULLY_DECIDED} is fully decided and none past it",
                decided == list(range(CLAIMED_SAT_RANGE[0], LAST_FULLY_DECIDED + 1)))
 
@@ -218,13 +227,17 @@ def main():
     section("the record check can fail")
     # Each of these edits to a real record must be reported, or the checks
     # above are not constraining anything.
-    sat_rec = next(r for r in runs if r["verdict"] == "SAT_WITNESS_VERIFIED")
-    unsat_rec = next(r for r in runs if r["verdict"] == "UNSAT")
-    timeout_rec = next(r for r in runs if r["verdict"] == "TIMEOUT")
-    for label, rec, key, value in [
+    sat_rec, unsat_rec, timeout_rec = (
+        next((r for r in runs if r.get("verdict") == v), None)
+        for v in ("SAT_WITNESS_VERIFIED", "UNSAT", "TIMEOUT"))
+    check_that("gate.jsonl holds a SAT, an UNSAT and a TIMEOUT record to edit",
+               None not in (sat_rec, unsat_rec, timeout_rec))
+    for label, rec, key, value in [] if None in (sat_rec, unsat_rec, timeout_rec) else [
         ("SAT", sat_rec, "clauses", sat_rec["clauses"] + 1),
         ("SAT", sat_rec, "vars", sat_rec["vars"] + 1),
         ("SAT", sat_rec, "returncode", 20),
+        ("SAT", sat_rec, "vars", float(sat_rec["vars"])),
+        ("UNSAT", unsat_rec, "returncode", 20.0),
         ("UNSAT", unsat_rec, "verdict", "SAT_WITNESS_VERIFIED"),
         ("UNSAT", unsat_rec, "m", unsat_rec["m"] + 1),
         ("TIMEOUT", timeout_rec, "verdict", "UNSAT"),
