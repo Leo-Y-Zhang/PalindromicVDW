@@ -1,0 +1,533 @@
+[
+  {
+    "id": "M01",
+    "module": "verify_witness",
+    "original": "return colouring == colouring[::-1]",
+    "replacement": "return True",
+    "before": "killed",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M02",
+    "module": "verify_witness",
+    "original": "if length <= 0:",
+    "replacement": "if length <= 1:",
+    "before": "killed",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M03",
+    "module": "verify_witness",
+    "original": "return len(positions) > 0",
+    "replacement": "return len(positions) >= 0",
+    "before": "killed",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M04",
+    "module": "verify_witness",
+    "original": "return len(positions) >= 2",
+    "replacement": "return len(positions) > 2",
+    "before": "killed",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M05",
+    "module": "verify_witness",
+    "original": "if k == length:",
+    "replacement": "if k != length:",
+    "before": "killed",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M06",
+    "module": "verify_witness",
+    "original": "nxt += d",
+    "replacement": "nxt += d + 1",
+    "before": "killed",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M07",
+    "module": "verify_witness",
+    "original": "if set(colouring) - {\"1\", \"2\"}:",
+    "replacement": "if False:",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M08",
+    "module": "verify_witness",
+    "original": "if has_progression(part1, 3):",
+    "replacement": "if False:",
+    "before": "killed",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M09",
+    "module": "verify_witness",
+    "original": "if has_progression(part2, n):",
+    "replacement": "if False:",
+    "before": "killed",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M10",
+    "module": "verify_witness",
+    "original": "if ch == \"2\"}",
+    "replacement": "if ch == \"1\"}",
+    "before": "killed",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M11",
+    "module": "encode",
+    "original": "return min(i, m + 1 - i)",
+    "replacement": "return min(i, m - i)",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M12",
+    "module": "encode",
+    "original": "if length <= 0:",
+    "replacement": "if length <= 1:",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M13",
+    "module": "encode",
+    "original": "for a in range(1, m + 1):",
+    "replacement": "for a in range(1, m):",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M14",
+    "module": "encode",
+    "original": "while a_max(m, length, d) >= 1:",
+    "replacement": "while a_max(m, length, d) > 1:",
+    "before": "killed",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M15",
+    "module": "encode",
+    "original": "nv = (m + 1) // 2",
+    "replacement": "nv = m // 2",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M16",
+    "module": "encode",
+    "original": "{-var_of(i, m) for i in ap}",
+    "replacement": "{var_of(i, m) for i in ap}",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M17",
+    "module": "encode",
+    "original": "{var_of(i, m) for i in ap})",
+    "replacement": "{-var_of(i, m) for i in ap})",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M18",
+    "module": "encode",
+    "original": "return nv, clauses",
+    "replacement": "return nv, clauses[:-1]",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M19",
+    "module": "encode",
+    "original": "f\"p cnf {nv} {len(clauses)}\"",
+    "replacement": "f\"p cnf {nv} {len(clauses) + 1}\"",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M20",
+    "module": "encode",
+    "original": "+ \" 0\" for c in clauses",
+    "replacement": "+ \"\" for c in clauses",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M21",
+    "module": "encode",
+    "original": "return \"\\n\".join(out) + \"\\n\"",
+    "replacement": "return \"\\n\".join(out[:-1]) + \"\\n\"",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M22",
+    "module": "encode",
+    "original": "if x > 0}",
+    "replacement": "if x < 0}",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M23",
+    "module": "encode",
+    "original": "for i in range(1, m + 1))",
+    "replacement": "for i in range(1, m))",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M24",
+    "module": "solve",
+    "original": "if line.startswith(\"v \"):",
+    "replacement": "if not line.startswith(\"v \"):",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M25",
+    "module": "solve",
+    "original": "for x in lits if x != 0",
+    "replacement": "for x in lits if x == 0",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M26",
+    "module": "solve",
+    "original": "int(t) for t in line[2:].split()",
+    "replacement": "abs(int(t)) for t in line[2:].split()",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M27",
+    "module": "solve",
+    "original": "if proc.returncode == UNSAT:",
+    "replacement": "if proc.returncode != SAT:",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M28",
+    "module": "solve",
+    "original": "elif proc.returncode == SAT:",
+    "replacement": "elif proc.returncode != SAT:",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M29",
+    "module": "solve",
+    "original": "reason = check(colouring, n)",
+    "replacement": "reason = None",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M30",
+    "module": "solve",
+    "original": "\"SAT_WITNESS_VERIFIED\" if reason is None",
+    "replacement": "\"SAT_WITNESS_VERIFIED\" if reason is not None",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M31",
+    "module": "solve",
+    "original": "if reason:\n            rec[\"witness_error\"] = reason",
+    "replacement": "if False:\n            rec[\"witness_error\"] = reason",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M32",
+    "module": "solve",
+    "original": "timed_out=True, verdict=\"TIMEOUT\"",
+    "replacement": "timed_out=True, verdict=\"UNSAT\"",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M33",
+    "module": "solve",
+    "original": "rec[\"sat\"] = False",
+    "replacement": "rec[\"sat\"] = True",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M34",
+    "module": "solve",
+    "original": "rec[\"sat\"] = True",
+    "replacement": "rec[\"sat\"] = False",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M35",
+    "module": "brute",
+    "original": "half = (m + 1) // 2",
+    "replacement": "half = m // 2",
+    "before": "killed",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M36",
+    "module": "brute",
+    "original": "left[::-1][m % 2:]",
+    "replacement": "left[::-1][1 - m % 2:]",
+    "before": "killed",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M37",
+    "module": "brute",
+    "original": "if check(colouring, n) is None:",
+    "replacement": "if check(colouring, n) is not None:",
+    "before": "killed",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M38",
+    "module": "brute",
+    "original": "m_cap - last_ok < 2",
+    "replacement": "m_cap - last_ok < 1",
+    "before": "killed",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M39",
+    "module": "brute",
+    "original": "return first_fail - 1, last_ok + 1",
+    "replacement": "return first_fail, last_ok + 1",
+    "before": "killed",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M40",
+    "module": "reach",
+    "original": "reason = check(colouring, n)",
+    "replacement": "reason = None",
+    "before": "killed",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M41",
+    "module": "reach",
+    "original": "if reason is None else",
+    "replacement": "if reason is not None else",
+    "before": "killed",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M42",
+    "module": "verify_all",
+    "original": "while m - (length - 1) * d >= 1:",
+    "replacement": "while m - (length - 1) * d > 1:",
+    "before": "killed",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M43",
+    "module": "verify_all",
+    "original": "type(value) is type(expected) and value == expected",
+    "replacement": "value == expected",
+    "before": "killed",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M44",
+    "module": "verify_all",
+    "original": "if not same(rec.get(\"vars\"), (m + 1) // 2):",
+    "replacement": "if False:",
+    "before": "killed",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M45",
+    "module": "verify_all",
+    "original": "if not same(rec.get(\"clauses\"), clauses):",
+    "replacement": "if False:",
+    "before": "killed",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M46",
+    "module": "verify_all",
+    "original": "not same(code, 10) or rec.get(\"sat\", True) is not True",
+    "replacement": "not same(code, 10) and rec.get(\"sat\", True) is not True",
+    "before": "killed",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M47",
+    "module": "verify_all",
+    "original": "or rec.get(\"sat\", True) is not True",
+    "replacement": "or False",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M48",
+    "module": "verify_all",
+    "original": "or not rec.get(\"colouring\")",
+    "replacement": "or False",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M49",
+    "module": "verify_all",
+    "original": "not same(code, 20) or rec.get(\"sat\") is not False",
+    "replacement": "not same(code, 20) and rec.get(\"sat\") is not False",
+    "before": "killed",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M50",
+    "module": "verify_all",
+    "original": "or rec.get(\"sat\") is not False",
+    "replacement": "or False",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M51",
+    "module": "verify_all",
+    "original": "not same(code, 20) or rec.get(\"sat\") is not False or \"colouring\" in rec:",
+    "replacement": "not same(code, 20) or rec.get(\"sat\") is not False or False:",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M52",
+    "module": "verify_all",
+    "original": "if code is not None or rec.get(\"timed_out\", True) is not True",
+    "replacement": "if False or rec.get(\"timed_out\", True) is not True",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M53",
+    "module": "verify_all",
+    "original": "or rec.get(\"timed_out\", True) is not True",
+    "replacement": "or False",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M54",
+    "module": "verify_all",
+    "original": "or \"sat\" in rec or \"colouring\" in rec:",
+    "replacement": "or False or \"colouring\" in rec:",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M55",
+    "module": "verify_all",
+    "original": "or \"sat\" in rec or \"colouring\" in rec:",
+    "replacement": "or \"sat\" in rec or False:",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M56",
+    "module": "verify_all",
+    "original": "problems.append(f\"verdict {verdict!r} is not one this gate knows\")",
+    "replacement": "pass",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M57",
+    "module": "verify_all",
+    "original": "return problems",
+    "replacement": "return []",
+    "before": "killed",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M58",
+    "module": "verify_all",
+    "original": "len(colouring) == rec[\"m\"]",
+    "replacement": "True",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  },
+  {
+    "id": "M59",
+    "module": "verify_all",
+    "original": "tally == CLAIMED_AGREEMENT",
+    "replacement": "True",
+    "before": "survived",
+    "after": "killed",
+    "pytest": "killed"
+  }
+]

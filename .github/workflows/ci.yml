@@ -31,6 +31,8 @@ jobs:
         with:
           python-version: "3.13"
       - run: python pdw/verify_all.py
+      - run: pip install pytest==8.4.2
+      - run: pytest -q
 
   # Pinned to the version ruff.toml was validated against.
   lint:
